@@ -12,18 +12,25 @@ namespace WebApplication1.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int transaction_id { get; set; }
+        public int TransactionID { get; set; }
+
+        [ForeignKey("User")]
+        public int? UserID { get; set; }  // Nullable, as indicated in the database structure
 
         [ForeignKey("Account")]
-        public int account_id { get; set; }
+        public int? AccountID { get; set; }  // Nullable, as indicated in the database structure
 
-        public string? transaction_type { get; set; }
+        [Required]
+        [Column(TypeName = "enum('Deposit','Withdraw','Transfer')")]
+        public string TransactionType { get; set; }
 
-        public decimal amount { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Amount { get; set; }
 
+        [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime timestamp { get; set; }
+        public DateTime DateAndTime { get; set; }
     }
-
 
 }

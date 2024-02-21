@@ -8,22 +8,11 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-    public class Account
+    [NotMapped]
+    public class CreateAccountRequest
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AccountID { get; set; }
-
         public int UserID { get; set; }
-
-        [Required]
-        [MaxLength(50)]
         public string AccountType { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Balance { get; set; }
-
-        [ForeignKey("UserID")]
-        public User User { get; set; }
     }
 }

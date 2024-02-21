@@ -16,6 +16,8 @@ namespace WebApplication1.DatabaseContext
         public DbSet<Account> Account { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<LoginRequest> LoginRequest { get; set; }
+
 
         
 

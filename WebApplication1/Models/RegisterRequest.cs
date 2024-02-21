@@ -8,26 +8,13 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-    public class User
+    [NotMapped]
+    public class RegisterRequest
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserID { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string FirstName { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string LastName { get; set; }
-
-        [Required]
-        [MaxLength(4)]
         public string PIN { get; set; }
-
-        [Required]
-        [MaxLength(16)]
         public string CardNumber { get; set; }
     }
+
 }

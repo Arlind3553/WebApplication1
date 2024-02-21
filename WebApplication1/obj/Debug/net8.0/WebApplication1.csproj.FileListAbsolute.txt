@@ -111,6 +111,7 @@ C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\WebApplication1.csproj.CoreCompileInputs.cache
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\WebApplication1.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\WebApplication1.sourcelink.json
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\User\source\myAtmProject\WebApplication1\WebApplication1\obj\Debug\net8.0\staticwebassets\msbuild.WebApplication1.Microsoft.AspNetCore.StaticWebAssets.props

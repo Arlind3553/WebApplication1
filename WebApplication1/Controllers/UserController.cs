@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
-        // GET: api/user
+        // http://localhost:5050/api/user
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
@@ -34,51 +34,71 @@ namespace WebApplication1.Controllers
                 return StatusCode(500, $"Internal server error 11111: {ex.Message}");
             }
         }
-
-        // GET: api/user/{id}
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        // http://localhost:5050/api/user/login
+        [HttpPost("login")]
+        public ActionResult<User> Login([FromBody] LoginRequest loginRequest)
         {
-            // Implement your logic to retrieve a specific user from the database based on the id
-            User user = null;
-            // Add your logic here
-
-            if (user == null)
+            try
             {
-                return NotFound();
+                var user = _context.User.FirstOrDefault(u => u.CardNumber == loginRequest.CardNumber && u.PIN == loginRequest.PIN);
+           
+                if (user != null)
+                {
+                    // User is found, return user details without PIN
+                    user.PIN = null;
+                    return Ok(user);
+                }
+                else
+                {
+                    // User not found or PIN incorrect
+                    return BadRequest("Invalid card number or PIN.");
+                }
             }
-
-            return Ok(user);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during login: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
-
-        // POST: api/user
-        [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        // http://localhost:5050/api/user/register
+        [HttpPost("register")]
+        public ActionResult<User> Register([FromBody] RegisterRequest registerRequest)
         {
-            // Implement your logic to create a new user in the database
-            // Add your logic here
+            try
+            {
+                // Check if the user already exists with the provided card number
+                var existingUser = _context.User.FirstOrDefault(u => u.CardNumber == registerRequest.CardNumber);
 
-            return CreatedAtAction(nameof(Get), new { id = user.customer_id }, user);
-        }
+                if (existingUser != null)
+                {
+                    return BadRequest("User with the provided card number already exists.");
+                }
 
-        // PUT: api/user/{id}
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User user)
-        {
-            // Implement your logic to update an existing user in the database based on the id
-            // Add your logic here
+                // Create a new user
+                var newUser = new User
+                {
+                    FirstName = registerRequest.FirstName,
+                    LastName = registerRequest.LastName,
+                    PIN = registerRequest.PIN,
+                    CardNumber = registerRequest.CardNumber
+                    // Add other properties as needed
+                };
 
-            return NoContent();
-        }
+                // Add the new user to the database
+                _context.User.Add(newUser);
+                _context.SaveChanges();
 
-        // DELETE: api/user/{id}
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            // Implement your logic to delete a user from the database based on the id
-            // Add your logic here
-
-            return NoContent();
+                // Return the newly created user details without sensitive information
+                newUser.PIN = null;
+                return Ok(newUser);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during user registration: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }
+
+
