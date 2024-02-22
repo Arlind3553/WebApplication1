@@ -4,12 +4,13 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import loginBg from "./login-bg.jpg";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 // Define your theme
 const defaultTheme = createTheme();
@@ -66,23 +67,30 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth='flex'>
         <CssBaseline />
         <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+      sx={{
+           backgroundImage: `url(${loginBg})`,
+          backgroundPosition: 'center',
+          minHeight: '100vh',
+          display: 'flex',
+          paddingLeft: 0,
+          paddingRight: 0,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+    >
+      {/* <img src={loginBg} alt="bg-img"  width="100%" height="auto"/> */}
+      <CssBaseline />
+          <Avatar sx={{ m: 1, bgcolor: 'turquoise' }}>
+            <AccountBalanceIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color={'black'}>
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }} te>
             <TextField
               margin="normal"
               required
@@ -122,5 +130,6 @@ const Login = () => {
     </ThemeProvider>
   );
 };
+
 
 export default Login;

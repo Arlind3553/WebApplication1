@@ -87,6 +87,7 @@ const Dashboard = () => {
     localStorage.removeItem('accountIds');
     navigate('/');  // Redirect to the login page
   };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>

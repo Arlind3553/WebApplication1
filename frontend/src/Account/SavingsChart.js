@@ -5,7 +5,26 @@
 // import chartData from '../utils/transactiondata';
 // import Title from './Title';
 
+// // Generate Sales Data
+// function createData(time, amount) {
+//   return { time, amount: amount ?? null };
+// }
 
+// let initialAmount = 0;
+
+
+
+// const data = [
+//   createData('00:00', 0),
+//   createData('03:00', 300),
+//   createData('06:00', 600),
+//   createData('09:00', 800),
+//   createData('12:00', 1500),
+//   createData('15:00', 2000),
+//   createData('18:00', 2400),
+//   createData('21:00', 2400),
+//   createData('24:00'),
+// ];
 
 // export default function Chart() {
 //   const theme = useTheme();
@@ -14,27 +33,24 @@
 
 // const [Transactions, setTransactions] = React.useState([]);
 
-// const fetchData = async () => {
+// const fetchData = async (accountId) => {
 //     try {
 //       const response = await axios.get(`http://localhost:5050/api/Transactions/GetTransactionsByAccountId/${parsedIds[0]}`);
-//       const readyForChart = chartData(response.data);
-//       setTransactions(readyForChart)
+//       console.log(`Response data for Account ${parsedIds[0]}:`, response.data);
+//       setTransactions([...response.data]);
 //     } catch (error) {
 //       console.error('Error fetching data:', error);
 //     }
 //   };
-
-//   React.useEffect(() => {
-//   fetchData();
-// }, []);
-
-
+  
+  
+//   const readyForChart = chartData(Transactions);
 //   return (
 //     <React.Fragment>
 //       <Title>Today</Title>
 //       <div style={{ width: '100%', flexGrow: 1, overflow: 'hidden' }}>
 //         <LineChart
-//           dataset={Transactions}
+//           dataset={readyForChart}
 //           margin={{
 //             top: 16,
 //             right: 20,

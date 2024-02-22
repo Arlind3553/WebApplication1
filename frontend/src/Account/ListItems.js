@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
@@ -21,11 +20,12 @@ import { useNavigate } from 'react-router-dom';
 const BankAccountIcon = () => (
   <AccountBalanceIcon />
 );
+
 const storedId = localStorage.getItem('accountIds');
 const Ids = storedId ? JSON.parse(storedId) : [];
 const storedIds = localStorage.getItem('user');
 const parsedIds = storedIds ? JSON.parse(storedIds) : [];
-console.log(parsedIds.firstName);
+
 const MainListItems = () => {
   const [withdrawMenuAnchor, setWithdrawMenuAnchor] = useState(null);
   const [selectedAccountId, setSelectedAccountId] = useState('');
@@ -33,6 +33,10 @@ const MainListItems = () => {
 
   const [depositMenuAnchor, setDepositMenuAnchor] = useState(null);
   const [depositAmount, setDepositAmount] = useState('');
+
+  const [transferMenuAnchor, setTransferMenuAnchor] = useState(null);
+  const [transferAmount, setTransferAmount] = useState('');
+  const [toAccountId, setToAccountId] = useState('');
 
   const navigate = useNavigate();
 
@@ -55,12 +59,9 @@ const MainListItems = () => {
         }
       );
 
-      // Handle success
       console.log('Withdraw successful:', response.data);
       window.location.reload();
-      // You can perform additional actions after a successful deposit
     } catch (error) {
-      // Handle error
       console.error('Error withdrawing:', error.response.data);
     }
   };
@@ -84,23 +85,44 @@ const MainListItems = () => {
         }
       );
 
-      // Handle success
       console.log('Deposit successful:', response.data);
       window.location.reload();
-      // You can perform additional actions after a successful deposit
     } catch (error) {
-      // Handle error
       console.error('Error depositing:', error.response.data);
     }
   };
 
+  const handleTransferMenuClick = (event) => {
+    setTransferMenuAnchor(event.currentTarget);
+  };
+
+  const handleTransferMenuClose = () => {
+    setTransferMenuAnchor(null);
+  };
+
+  const handleTransferSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5050/api/Transactions/Transfer',
+        {
+          Amount: transferAmount,
+          FromAccountID: selectedAccountId,
+          ToAccountID: toAccountId,
+          UserID: parsedIds.userID
+        }
+      );
+
+      console.log('Transfer successful:', response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error transferring:', error.response.data);
+    }
+  };
+
   const handleLogout = () => {
-    // Clear local storage or perform any other necessary cleanup
     localStorage.removeItem('user');
     localStorage.removeItem('response1');
     localStorage.removeItem('accountIds');
-
-    // Redirect to the login page
     navigate('/');
   };
 
@@ -128,7 +150,7 @@ const MainListItems = () => {
         <ListItemIcon>
           <CompareArrowsIcon />
         </ListItemIcon>
-        <ListItemText primary="Transfer" />
+        <ListItemText primary="Transfer" onClick={handleTransferMenuClick} />
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
@@ -142,8 +164,7 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Log Out" />
       </ListItemButton>
-      
-      {/* Withdraw Menu */}
+
       <Menu
         anchorEl={withdrawMenuAnchor}
         open={Boolean(withdrawMenuAnchor)}
@@ -160,10 +181,8 @@ const MainListItems = () => {
               <MenuItem value="" disabled>
                 Select Account
               </MenuItem>
-              {/* Add your account options here */}
               <MenuItem value={Ids[0]}>Savings Account</MenuItem>
               <MenuItem value={Ids[1]}>Personal Account</MenuItem>
-              {/* Add more accounts if needed */}
             </Select>
           </FormControl>
         </MenuItem>
@@ -185,7 +204,6 @@ const MainListItems = () => {
         </MenuItem>
       </Menu>
 
-      {/* Deposit Menu */}
       <Menu
         anchorEl={depositMenuAnchor}
         open={Boolean(depositMenuAnchor)}
@@ -202,10 +220,8 @@ const MainListItems = () => {
               <MenuItem value="" disabled>
                 Select Account
               </MenuItem>
-              {/* Add your account options here */}
               <MenuItem value={Ids[0]}>Savings Account</MenuItem>
               <MenuItem value={Ids[1]}>Personal Account</MenuItem>
-              {/* Add more accounts if needed */}
             </Select>
           </FormControl>
         </MenuItem>
@@ -222,6 +238,72 @@ const MainListItems = () => {
         </MenuItem>
         <MenuItem>
           <Button onClick={handleDepositSubmit} variant="contained" color="primary">
+            Submit
+          </Button>
+        </MenuItem>
+      </Menu>
+
+      <Menu
+        anchorEl={transferMenuAnchor}
+        open={Boolean(transferMenuAnchor)}
+        onClose={handleTransferMenuClose}
+      >
+        <MenuItem>
+          <FormControl>
+
+{/* first select------- */}
+
+            <Select
+              value={selectedAccountId}
+              onChange={(e) => setSelectedAccountId(e.target.value)}
+              input={<Input id="from-account-select" />}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Select Account
+              </MenuItem>
+              <MenuItem name="first-save" value={Ids[0]}>Savings Account</MenuItem>
+              <MenuItem name="first-personal" value={Ids[1]}>Personal Account</MenuItem>
+            </Select>
+
+          </FormControl>
+        </MenuItem>
+        <MenuItem>
+          <FormControl>
+            <InputLabel htmlFor="to-account-select">To Account</InputLabel>
+
+
+{/* second select------- */}
+
+            <Select
+              value={toAccountId}
+              onChange={(e) => setToAccountId(e.target.value)}
+              input={<Input id="to-account-select" />}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Select Account
+              </MenuItem>
+              <MenuItem  name="second-save" value={Ids[0]}>Savings Account</MenuItem>
+              <MenuItem  name="second-personal" value={Ids[1]}>Personal Account</MenuItem>
+            </Select>
+
+
+          </FormControl>
+        </MenuItem>
+        <MenuItem>
+          <FormControl>
+            <InputLabel htmlFor="amount-input">Amount</InputLabel>
+            <Input
+              id="amount-input"
+              type="number"
+              value={transferAmount}
+              onChange={(e) => setTransferAmount(e.target.value)}
+            />
+          </FormControl>
+        </MenuItem>
+        <MenuItem>
+          <Button onClick={handleTransferSubmit} variant="contained" color="primary">
             Submit
           </Button>
         </MenuItem>
