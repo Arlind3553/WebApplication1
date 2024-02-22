@@ -190,12 +190,12 @@ namespace WebApplication1.Controllers
 
             return Ok(transactions);
         }
-        // http://localhost:5050/api/Transactions/GetTransactionsByAccountId/{userId}
-        [HttpGet("GetTransactionsByUserId/{userId}")]
-        public ActionResult<IEnumerable<Transactions>> GetTransactionsByUserId(int userId)
+        // http://localhost:5050/api/Transactions/GetTransactionsByUserId/{userId}
+        [HttpGet("GetTransactionsByUserId/{UserID}")]
+        public ActionResult<IEnumerable<Transactions>> GetTransactionsByUserId(int UserID)
         {
             var transactions = _context.Transactions
-                .Where(t => t.UserID == userId)
+                .Where(t => t.UserID == UserID)
                 .ToList();
 
             if (transactions == null || transactions.Count == 0)
@@ -205,6 +205,7 @@ namespace WebApplication1.Controllers
 
             return Ok(transactions);
         }
+
 
     }
 }
