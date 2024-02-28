@@ -44,13 +44,13 @@ namespace WebApplication1.Controllers
            
                 if (user != null)
                 {
-                    // User is found, return user details without PIN
+                 
                     user.PIN = null;
                     return Ok(user);
                 }
                 else
                 {
-                    // User not found or PIN incorrect
+                    
                     return BadRequest("Invalid card number or PIN.");
                 }
             }
@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                // Check if the user already exists with the provided card number
+               
                 var existingUser = _context.User.FirstOrDefault(u => u.CardNumber == registerRequest.CardNumber);
 
                 if (existingUser != null)
@@ -74,21 +74,21 @@ namespace WebApplication1.Controllers
                     return BadRequest("User with the provided card number already exists.");
                 }
 
-                // Create a new user
+              
                 var newUser = new User
                 {
                     FirstName = registerRequest.FirstName,
                     LastName = registerRequest.LastName,
                     PIN = registerRequest.PIN,
                     CardNumber = registerRequest.CardNumber
-                    // Add other properties as needed
+                   
                 };
 
-                // Add the new user to the database
+               
                 _context.User.Add(newUser);
                 _context.SaveChanges();
 
-                // Return the newly created user details without sensitive information
+               
                 newUser.PIN = null;
                 return Ok(newUser);
             }

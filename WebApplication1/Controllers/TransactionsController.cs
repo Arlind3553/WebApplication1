@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
             }
 
 
-            // Assuming you have some validation logic for account existence, you can replace the next line accordingly.
+            
             var account = _context.Account.FirstOrDefault(a => a.AccountID == depositRequest.AccountID);
 
             if (account == null)
@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
                 return NotFound("Account not found");
             }
 
-            // Create a new transaction for the deposit
+            
             var depositTransaction = new Transactions
             {
                 AccountID = depositRequest.AccountID,
@@ -45,10 +45,10 @@ namespace WebApplication1.Controllers
                 DateAndTime = DateTime.Now
             };
 
-            // Update the account balance
+          
             account.Balance += depositRequest.Amount;
 
-            // Add the transaction to the database
+         
             _context.Transactions.Add(depositTransaction);
             _context.SaveChanges();
             return Ok();
@@ -78,30 +78,30 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    // Create a new transaction for the withdrawal
+                    
                     var withdrawalTransaction = new Transactions
                     {
                         AccountID = withdrawRequest.AccountID,
-                        TransactionType = "Withdraw", // Assuming you have an enum for TransactionType
+                        TransactionType = "Withdraw", 
                         Amount = withdrawRequest.Amount,
                         UserID = withdrawRequest.UserID,
                         DateAndTime = DateTime.Now
                     };
 
-                    // Update the account balance
+                
                     account.Balance -= withdrawRequest.Amount;
 
                     // Add the transaction to the database
                     _context.Transactions.Add(withdrawalTransaction);
                     _context.SaveChanges();
 
-                    transaction.Commit(); // Commit the transaction if everything is successful
+                    transaction.Commit(); 
 
                     return Ok();
                 }
                 catch (Exception)
                 {
-                    transaction.Rollback(); // Rollback the transaction if there's an exception
+                    transaction.Rollback(); 
                     return StatusCode(500, "Internal server error");
                 }
             }
@@ -138,14 +138,14 @@ namespace WebApplication1.Controllers
                         AccountID = transferRequest.FromAccountID,
                         TransactionType = "Transfer",
                         Amount = transferRequest.Amount,
-                        UserID = transferRequest.UserID, // Set UserID
+                        UserID = transferRequest.UserID, 
                         DateAndTime = DateTime.Now
                     };
 
-                    // Update the source account balance
+                    
                     fromAccount.Balance -= transferRequest.Amount;
 
-                    // Create a new transaction for the deposit to the destination account
+                 
                     var depositTransaction = new Transactions
                     {
                         AccountID = transferRequest.ToAccountID,
@@ -155,15 +155,14 @@ namespace WebApplication1.Controllers
                         DateAndTime = DateTime.Now
                     };
 
-                    // Update the destination account balance
                     toAccount.Balance += transferRequest.Amount;
 
-                    // Add both transactions to the database
+                    // git add transatcion 
                     _context.Transactions.Add(withdrawalTransaction);
                     _context.Transactions.Add(depositTransaction);
                     _context.SaveChanges();
 
-                    transaction.Commit(); // Commit the transaction if everything is successful
+                    transaction.Commit(); // Commit transatcion
 
                     return Ok();
                 }

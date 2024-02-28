@@ -49,7 +49,6 @@ namespace WebApplication1
 
             app.UseRouting();
 
-            // Enable CORS if necessary
             app.UseCors("AllowAll");
 
             app.UseAuthorization();

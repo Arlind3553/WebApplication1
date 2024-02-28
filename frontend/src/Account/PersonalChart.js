@@ -9,13 +9,13 @@ import Title from './Title';
 const storedId = localStorage.getItem('accountIds');
 const Ids = storedId ? JSON.parse(storedId) : [];
 
-const SavingsChart = () => {
+const PersonalChart = () => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/Transactions/GetTransactionsByAccountId/${Ids[0]}`);
+        const response = await axios.get(`http://localhost:5050/api/Transactions/GetTransactionsByAccountId/${Ids[1]}`);
         setTransactions(response.data);
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -130,7 +130,7 @@ console.log(maxAmount);
 
   return (
     <React.Fragment>
-      <Title>Savings Account Chart</Title>
+      <Title>Personal Account Chart</Title>
       <div style={{ width: '100%', flexGrow: 1, overflow: 'hidden' }}>
         <LineChart
           dataset={data}
@@ -180,4 +180,4 @@ console.log(maxAmount);
   );
 };
 
-export default SavingsChart;
+export default PersonalChart;

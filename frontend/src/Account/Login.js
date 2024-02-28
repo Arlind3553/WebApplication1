@@ -71,7 +71,7 @@ const Login = () => {
         <CssBaseline />
         <Box
       sx={{
-           backgroundImage: `url(${loginBg})`,
+          backgroundImage: `url(${loginBg})`,
           backgroundPosition: 'center',
           minHeight: '100vh',
           display: 'flex',

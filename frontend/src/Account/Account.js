@@ -9,19 +9,22 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
+// import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Deposits1 from './SavignsAccount';
 import Deposits2 from './PersonalAccount';
 import Orders from './Orders';
 import MainListItems from './ListItems';  // Updated import
 // import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from 'react-router-dom';
+import SavingChart from './SavingsChart'
+import PersonalChart from './PersonalChart'
+// import handleLogout from './ListItems'
 
 const drawerWidth = 240;
 
@@ -120,10 +123,11 @@ const Dashboard = () => {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            <IconButton onClick={handleLogout} style={{ color: 'white' }}>
+              <Typography style={{ color: 'white', fontWeight: 'bold' , marginRight: '8px'}}>
+                Logout
+              </Typography>
+              <ExitToAppIcon style={{ color: 'white' }} />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -170,6 +174,7 @@ const Dashboard = () => {
                     height: 240,
                   }}
                 >
+                  <SavingChart></SavingChart>
                   {/* <Chart /> */}
                 </Paper>
               </Grid>
@@ -180,7 +185,8 @@ const Dashboard = () => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 210,
+                    height: 240,
+                    alignItems: 'center'
                   }}
                 >
                   <Deposits1 />
@@ -191,6 +197,7 @@ const Dashboard = () => {
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
+                
                 <Paper
                   sx={{
                     p: 2,
@@ -198,10 +205,11 @@ const Dashboard = () => {
                     flexDirection: 'column',
                     height: 240,
                   }}
-                >
+                ><PersonalChart></PersonalChart>
                   {/* <Chart /> */}
                 </Paper>
               </Grid>
+              
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
@@ -209,7 +217,8 @@ const Dashboard = () => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 210,
+                    height: 240,
+                    alignItems: 'center'
                   }}
                 >
                   <Deposits2 />

@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                // Find the user by the provided userId
+                
                 var user = _context.User.FirstOrDefault(u => u.UserID == userId);
 
                 if (user == null)
@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
                     return NotFound("User not found.");
                 }
                 
-                // Find all accounts associated with the user
+            
                 var accounts = _context.Account.Where(a => a.UserID == userId).ToList();
 
                 if (accounts.Count == 0)
@@ -40,16 +40,16 @@ namespace WebApplication1.Controllers
                     return NotFound("No accounts found for the user.");
                 }
 
-                // Include the account details in the response
+               
                 var accountDetails = accounts.Select(account => new
                 {
                     AccountId = account.AccountID,
                     AccountType = account.AccountType,
                     Balance = account.Balance
-                    // Add other properties as needed
+                    
                 });
 
-                // Return the account details
+            
                 return Ok(accountDetails);
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                // Find the user by the provided userId
+            
                 var user = _context.User.FirstOrDefault(u => u.UserID == createAccountRequest.UserID);
 
                 if (user == null)
@@ -72,20 +72,19 @@ namespace WebApplication1.Controllers
                     return NotFound("User not found.");
                 }
 
-                // Create a new account for the user
+             
                 var newAccount = new Account
                 {
                     UserID = createAccountRequest.UserID,
                     AccountType = createAccountRequest.AccountType,
                     Balance = createAccountRequest.Balance
-                    // Add other properties as needed
+                    
                 };
 
-                // Add the new account to the database
+             
                 _context.Account.Add(newAccount);
                 _context.SaveChanges();
 
-                // Return the newly created account details
                 return Ok(newAccount);
             }
             catch (Exception ex)
